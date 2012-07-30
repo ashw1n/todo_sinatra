@@ -1,0 +1,36 @@
+<h1>Input</h1>
+<br>
+
+<p>
+	<strong>Complete Task #</strong>
+	<form action="/complete" method="post">
+		<input type="number" name="complete">
+		<input type="submit">
+	</form>
+</p>
+<br>
+
+<p>
+	<strong>Current Tasks:</strong>
+	<p>	
+		<% @all_tasks = CSV.read("tasks.csv") %>
+		<% @count = 0 %>
+		<% while @count < @all_tasks.size do %>
+			<%= @count + 1 %>.
+			<%= @all_tasks[@count] %>
+			<% @count += 1 %>
+			<br>
+		<% end %>
+	</p>
+</p>
+
+<br>
+<p>
+	<a href="/">Home</a>
+	<br>
+	<a href="/all">All</a>
+	<br>
+	<a href="/new">New</a>
+	<br>
+	<a href="/complete">Complete</a>
+</p>
