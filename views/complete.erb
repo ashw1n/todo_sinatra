@@ -13,14 +13,11 @@
 <p>
 	<strong>Current Tasks:</strong>
 	<p>	
-		<% @all_tasks = CSV.read("tasks.csv") %>
-		<% @count = 0 %>
-		<% while @count < @all_tasks.size do %>
-			<%= @count + 1 %>.
-			<%= @all_tasks[@count] %>
-			<% @count += 1 %>
-			<br>
-		<% end %>
+		<ol>
+			<% @render_tasks.each do |task| %>
+				<li><%= task %></li>
+			<% end %>
+		</ol>
 	</p>
 </p>
 

@@ -4,31 +4,13 @@
 #<%= params[:complete] %>
 <br><br>
 
-<% @old_tasks = CSV.read("tasks.csv") %>
-<% @all_tasks = CSV.open("tasks.csv", "w") %>
-
-<% @num = 0 %>
-<% @complete_num = params[:complete].to_i - 1 %>
-
-<% while @num < @old_tasks.size do %>
-	<% if @num != @complete_num %>
-		<% @all_tasks << @old_tasks[@num] %>
-	<% end %>
-	<% @num += 1 %>
-<% end %>
-<% @all_tasks.close %>
-
-
 <p>
-	<strong>All Tasks:</strong><br>
-	<% @all_tasks = CSV.read("tasks.csv") %>
-	<% @count = 0 %>
-	<% while @count < @all_tasks.size do %>
-		<%= @count + 1 %>.
-		<%= @all_tasks[@count] %>
-		<% @count += 1 %>
-		<br>
-	<% end %>
+	<strong>Current Tasks:</strong>
+	<ol>
+		<% @render_tasks.each do |task| %>
+			<li><%= task %></li>
+		<% end %>
+	</ol>
 	
 </p>
 

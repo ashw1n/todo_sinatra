@@ -15,22 +15,29 @@ get '/' do
 end
 
 get '/all' do
+  @render_tasks = CSV.read("tasks.csv")
   erb :all
 end
 
 get '/new' do
+  @render_tasks = CSV.read("tasks.csv")
   erb :new
 end
 
 post '/new' do
+  Todo.new.create(params[:new_task])
+  @render_tasks = CSV.read("tasks.csv")
   erb :new_output
 end
 
 get '/complete' do
+  @render_tasks = CSV.read("tasks.csv")
   erb :complete
 end
 
 post '/complete' do
+  Todo.new.complete(params[:complete])
+  @render_tasks = CSV.read("tasks.csv")
   erb :complete_output
 end
 
@@ -40,7 +47,7 @@ class Todo
   def all
   end
   
-  def create
+  def create(description)
     old_tasks = CSV.read("tasks.csv")
     all_tasks = CSV.open("tasks.csv", "w")
     i = old_tasks.size
@@ -50,14 +57,13 @@ class Todo
       all_tasks << old_tasks[num]
       num += 1
     end
-    all_tasks << ["#{ARGV[1]}"]
+    all_tasks << ["#{description}"]
     all_tasks.close
   end
   
-  def complete
+  def complete(number)
     num = 0
-    input_num = ARGV[1]
-    complete_num = input_num.to_i - 1
+    complete_num = "#{number}".to_i - 1
     
     old_tasks = CSV.read("tasks.csv")
     all_tasks = CSV.open("tasks.csv", "w")
@@ -71,16 +77,5 @@ class Todo
     end
     all_tasks.close
   end
-  
-    #if ARGV[0] == "all"
-    #  ToDo.new.all
-    #elsif ARGV[0] == "new"
-    #  ToDo.new.create
-    #else ARGV[0] == "complete"
-    #  ToDo.new.complete
-    #end
-
-    #all_tasks = CSV.read("tasks.csv")
-    #all_tasks.each_with_index {|l, index| puts (index + 1).to_s + ". " + l.to_s}
-    
+      
 end
