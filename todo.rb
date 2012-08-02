@@ -1,9 +1,12 @@
 require 'rubygems'
 require 'sinatra'
 require 'csv'
-require 'FileUtils'
+# require 'FileUtils'
+require 'sinatra/activerecord'
 
-FileUtils.touch("tasks.csv")
+set :database, 'sqlite:///tasks.db'
+
+# FileUtils.touch("tasks.csv")
 
 not_found do
   status 404
@@ -27,7 +30,8 @@ end
 post '/new' do
   Todo.new.create(params[:new_task])
   @render_tasks = CSV.read("tasks.csv")
-  erb :new_output
+  redirect "/all"
+  # @render_tasks = ShortenedUrl.find_or_create_by_url(params[:url])
 end
 
 get '/complete' do
@@ -38,11 +42,27 @@ end
 post '/complete' do
   Todo.new.complete(params[:complete])
   @render_tasks = CSV.read("tasks.csv")
-  erb :complete_output
+  redirect "/all"
 end
 
+# get '/:shortened' do
+#  short_url = ShortenedUrl.find(params[:shortened])
+#  redirect short_url.url
+# end
 
-class Todo
+# Todo.find(params[:id])
+# @todo = _
+# @todo.complete
+# @todo.update_attribute(:completed, true)
+# @todo.update_attributes(:completed => true, :to_do_date => nil)
+# @todo.update_attributes(params[:todo])
+# params[:todo] = {:completed => true, :to_do_date => nil}
+
+class Todo < ActiveRecord::Base
+
+  # validates_uniqueness_of :task
+  # validates_presence_of :task
+  # validates_format_of :task, :with => what expression goes here?
   
   def all
   end
